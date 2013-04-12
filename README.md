@@ -1,4 +1,4 @@
-C--HomeWork
+C++HomeWork
 This folder include homework C++
 
 main.cpp - CHECK_TEST
