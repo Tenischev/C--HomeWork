@@ -110,10 +110,9 @@ public:
             this->_op=this->_op->next;
             return *this;
         }
-        iterator operator ++(int q)
+        iterator operator ++(int)
         {
-            for (int i=0;i<q;i++)
-                this->operator ++();
+            this->_op=this->_op->next;
             return *this;
         }
         iterator& operator --()
@@ -121,10 +120,9 @@ public:
             this->_op=this->_op->prev;
             return *this;
         }
-        iterator operator --(int q)
+        iterator operator --(int)
         {
-            for (int i=0;i<q;i++)
-                this->operator --();
+            this->_op=this->_op->prev;
             return *this;
         }
         bool operator !=(iterator const& b) const
