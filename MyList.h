@@ -145,11 +145,11 @@ public:
     {
         q._op->prev->next=q._op->next;
         q._op->next->prev=q._op->prev;
-        op* del=q._op;
-        q.operator ++();
-        del->next=0;
-        del->prev=0;
-        delete del;
+        op* nex=q._op->prev;
+        q._op->next=0;
+        q._op->prev=0;
+        delete q._op;
+        q._op=nex;
         return q;
     }
     iterator insert(iterator q, int w)
@@ -180,6 +180,13 @@ public:
                 delete del;
             }
             i=i->next;
+        }
+        if (i->prev!=0)
+        {
+            del=i->prev;
+            del->prev=0;
+            del->next=0;
+            delete del;
         }
         i->prev=0;
         delete i;
