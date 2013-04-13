@@ -13,8 +13,8 @@ struct op
         this->num=_num;
         this->prev=_prev;
     }
+    ~op(){}
 };
-
 
 struct List
 {
@@ -25,6 +25,8 @@ private:
 public:
     List()
     {
+        this->end->next=0;
+        this->beg->prev=0;
         this->end->prev=this->beg;
         this->beg->next=this->end;
         this->kol = 0;
@@ -45,7 +47,6 @@ public:
     }
     void push_back(int q)
     {   // pp -> new -> end
-        //op* pp = this->end->prev;
         op* n = new op;
         n->num=q;
         n->prev=this->end->prev;
@@ -56,7 +57,6 @@ public:
     }
     void push_front(int q)
     {   // beg -> n -> pp
-        //op* pp = this->beg->next;
         op* n = new op;
         n->num=q;
         n->next=this->beg->next;
@@ -67,14 +67,22 @@ public:
     }
     void pop_back()
     {   // pp -> p -> end ...to... pp -> end
+        op* del=this->end->prev;
         this->end->prev->prev->next= this->end;
         this->end->prev=this->end->prev->prev;
+        del->next=0;
+        del->prev=0;
+        delete del;
         this->kol--;
     }
     void pop_front()
     {   // beg -> p -> pp ...to... beg -> pp
+        op* del=this->beg->next;
         this->beg->next->next->prev=this->beg;
         this->beg->next=this->beg->next->next;
+        del->next=0;
+        del->prev=0;
+        delete del;
         this->kol--;
     }
     int (back() const)
@@ -123,6 +131,7 @@ public:
         {
             return !(this->_op==b._op);
         }
+        ~iterator(){}
     };
     iterator begin()
     {
@@ -136,7 +145,12 @@ public:
     {
         q._op->prev->next=q._op->next;
         q._op->next->prev=q._op->prev;
-        return q.operator ++();
+        op* del=q._op;
+        q.operator ++();
+        del->next=0;
+        del->prev=0;
+        delete del;
+        return q;
     }
     iterator insert(iterator q, int w)
     {
@@ -151,6 +165,24 @@ public:
     int print(iterator q)
     {
         return q._op->num;
+    }
+    ~List()
+    {
+        op* i=this->beg;
+        op* del;
+        while (i->next!=0)
+        {
+            if (i->prev!=0)
+            {
+                del=i->prev;
+                del->prev=0;
+                del->next=0;
+                delete del;
+            }
+            i=i->next;
+        }
+        i->prev=0;
+        delete i;
     }
 };
 #endif // LIST_H
