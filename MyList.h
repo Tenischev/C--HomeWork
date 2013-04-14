@@ -21,8 +21,8 @@ struct List
 private:
     op* beg=new op;
     op* end=new op;
-public:
     int kol;
+public:
     List()
     {
         this->end->next=0;
@@ -33,6 +33,11 @@ public:
     }
     List(List const& q)
     {
+        this->end->next=0;
+        this->beg->prev=0;
+        this->end->prev=this->beg;
+        this->beg->next=this->end;
+        this->kol = 0;
         this->operator =(q);
     }
     List& operator =(List const& b)
@@ -44,6 +49,10 @@ public:
             t=t->next;
         }
         return *this;
+    }
+    int size()
+    {
+        return this->kol;
     }
     void push_back(int q)
     {   // pp -> new -> end
