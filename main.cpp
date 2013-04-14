@@ -15,6 +15,13 @@ BOOST_AUTO_TEST_CASE(TestListPush)
     BOOST_CHECK_EQUAL(8,_list.back());
 }
 
+BOOST_AUTO_TEST_CASE(TestListCopyCtor)
+{
+   List _list;
+   List _list2 = _list;
+   List _list3 = _list2;
+}
+
 BOOST_AUTO_TEST_CASE(TestListPop)
 {
     List _list;
@@ -45,7 +52,7 @@ BOOST_AUTO_TEST_CASE(TestListOperator)
     _list1.push_back(10);
     _list1.push_back(15);
     _list2=_list1;
-    BOOST_CHECK_EQUAL(_list1.kol,_list2.kol);
+    BOOST_CHECK_EQUAL(_list1.size(),_list2.size());
     BOOST_CHECK_EQUAL(5,_list2.front());
     _list2.pop_front();
     BOOST_CHECK_EQUAL(10,_list2.front());
