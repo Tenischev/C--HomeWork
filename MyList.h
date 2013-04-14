@@ -21,8 +21,8 @@ struct List
 private:
     op* beg=new op;
     op* end=new op;
-    int kol;
 public:
+    int kol;
     List()
     {
         this->end->next=0;
@@ -85,11 +85,11 @@ public:
         delete del;
         this->kol--;
     }
-    int (back() const)
+    int back() const
     {   // return p ... p -> end
         return this->end->prev->num;
     }
-    int (front() const)
+    int front() const
     {   // return beg.num
         return this->beg->next->num;
     }
@@ -135,19 +135,17 @@ public:
     {
         return this->beg->next;
     }
-    iterator ending()
+    iterator End()
     {
         return this->end;
     }
     iterator erase(iterator q)
     {
+        const op* del=q._op->next->prev;
         q._op->prev->next=q._op->next;
         q._op->next->prev=q._op->prev;
-        op* nex=q._op->prev;
-        q._op->next=0;
-        q._op->prev=0;
-        delete q._op;
-        q._op=nex;
+        q--;
+        delete del;
         return q;
     }
     iterator insert(iterator q, int w)
@@ -159,10 +157,6 @@ public:
         q._op->next->prev=n;
         q._op->next=n;
         return q.operator ++();
-    }
-    int print(iterator q)
-    {
-        return q._op->num;
     }
     ~List()
     {
